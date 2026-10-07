@@ -75,9 +75,15 @@ The Compose startup command was then retried.
 
 Add screenshots showing:
 
-- Dashboard overview.
-- Expense entry form.
-- Expense history.
+
+- ### Dashboard overview
+- 
+  Screenshot 2026-10-07 at 08-41-40 Vinay Expense Dashboard.png
+
+### Add expense
+
+
+### Expense history
 
 Remove personal information before publishing screenshots.
 
