@@ -85,6 +85,7 @@ Add screenshots showing:
 
 
 ### Expense history
+**Screenshot 2026-10-07 at 10-14-18 Vinay Expens-history.png**
 
 Remove personal information before publishing screenshots.
 
