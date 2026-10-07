@@ -78,9 +78,10 @@ Add screenshots showing:
 
 - ### Dashboard overview
 - 
-  Screenshot 2026-10-07 at 08-41-40 Vinay Expense Dashboard.png
+  **Screenshot 2026-10-07 at 08-41-40 Vinay Expense Dashboard.png**
 
 ### Add expense
+**Screenshot 2026-10-07 at 10-13-21 add-expense.png**
 
 
 ### Expense history
