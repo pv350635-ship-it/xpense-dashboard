@@ -1,133 +1,90 @@
-# Vinay Docker Expense Dashboard
+# Expense Dashboard
 
-A personal expense dashboard built with Flask, PostgreSQL,
-Nginx, and Docker Compose.
-
-Developed and tested locally in Parrot OS running in VMware.
+A containerized expense-tracking web application with PostgreSQL,
+local HTTPS, and a temporary public demo through Cloudflare Tunnel.
 
 ## Features
 
-- Dashboard layout with sidebar navigation
-- Built-in SVG finance illustration
-- Monthly spending total
-- All-time expense count and spending total
-- Expense entry form and history table
-- PostgreSQL persistent storage
-- Local HTTPS using a self-signed certificate
-- Database backup and restore workflow
+- Add expenses with an amount and category.
+- View expense history.
+- View expense totals on the dashboard.
+- Access the application through a local HTTPS endpoint.
+
+## Components
+
+- Application served using Gunicorn.
+- PostgreSQL database.
+- Container services managed using Compose.
+- Podman socket used for Docker-compatible Compose commands.
+- Cloudflare Tunnel used for a temporary public demo.
 
 ## Architecture
 
-Browser → HTTPS Nginx → Flask/Gunicorn → PostgreSQL
+Browser → HTTPS service → Application → PostgreSQL
 
-## Requirements
+Public demo:
+Browser → Cloudflare Tunnel → Local HTTPS service → Application → PostgreSQL
 
-- Docker Engine
-- Docker Compose
-- OpenSSL
-- Git
+## Run Locally
 
-## Local setup
+From the project folder:
 
-Clone this repository and enter its directory.
+    docker compose up -d --build
+    docker compose ps
 
-Create the environment file:
+For the local configuration demonstrated in this project:
 
-```bash
-cp .env.example .env
-```
+- HTTP: http://127.0.0.1:8080
+- HTTPS: https://127.0.0.1:8443
 
-Edit .env and replace the placeholder password:
+The HTTP endpoint redirects to HTTPS.
 
-```bash
-nano .env
-chmod 600 .env
-```
+## Local HTTPS
 
-Generate a local certificate:
+The browser displayed a certificate warning during local testing.
+A certificate exception was accepted for the local demonstration.
 
-```bash
-mkdir -p nginx/certs
+## Public Demo
 
-openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
-  -keyout nginx/certs/localhost.key \
-  -out nginx/certs/localhost.crt \
-  -subj "/CN=localhost" \
-  -addext "subjectAltName=DNS:localhost,IP:127.0.0.1"
+The application was tested through a temporary Cloudflare Quick Tunnel.
 
-chmod 600 nginx/certs/localhost.key
-```
+The demo depends on the local machine, containers, and tunnel
+remaining running. It is not permanent cloud hosting.
 
-Validate and start:
+Use sample data only.
 
-```bash
-sudo docker compose config --quiet
-sudo docker compose up -d --build
-```
+## Testing
 
-Open https://localhost:8443 in a browser on the Docker host.
+- Dashboard loaded successfully in Firefox.
+- A ₹150 food expense appeared in the dashboard and expense history.
+- Public access was tested through the tunnel URL.
 
-The certificate is self-signed, so a browser warning may appear.
-Only accept an exception for your own local test certificate.
+## Troubleshooting
 
-HTTP at http://localhost:8080 redirects to the HTTPS address.
+### Compose could not connect to the Podman socket
 
-## Service checks
+The issue was resolved by starting the user-level socket and
+setting the socket address in the terminal:
 
-```bash
-sudo docker compose ps
-sudo docker compose logs --tail=50 app nginx
-```
+    systemctl --user start podman.socket
+    export DOCKER_HOST="unix://$XDG_RUNTIME_DIR/podman/podman.sock"
 
-## Persistence test
+The Compose startup command was then retried.
 
-Add an expense, then recreate the containers:
+## Screenshots
 
-```bash
-sudo docker compose down
-sudo docker compose up -d
-```
+Add screenshots showing:
 
-Refresh the dashboard and confirm the expense remains.
+- Dashboard overview.
+- Expense entry form.
+- Expense history.
 
-Do not use down --volumes unless you intend to delete the database data.
+Remove personal information before publishing screenshots.
 
-## Database backup
+## Planned Improvements
 
-```bash
-sudo docker compose exec -T db pg_dump -U expenseuser -d expenses > expenses-backup.sql
-```
-
-## Restore test
-
-Create a separate test database once:
-
-```bash
-sudo docker compose exec db createdb -U expenseuser expenses_restore_test
-```
-
-Restore the backup:
-
-```bash
-sudo docker compose exec -T db psql -v ON_ERROR_STOP=1 -U expenseuser -d expenses_restore_test < expenses-backup.sql
-```
-
-Check the restored data:
-
-```bash
-sudo docker compose exec db psql -P pager=off -U expenseuser -d expenses_restore_test -c "SELECT * FROM expenses;"
-```
-
-## Security and limitations
-
-- This is a local learning project, not a production application.
-- Host ports are bound to 127.0.0.1.
-- HTTPS uses a self-signed certificate, not a publicly trusted certificate.
-- Authentication and CSRF protection are not implemented.
-- .env, certificate files, and SQL backups are excluded from Git.
-- The sidebar links navigate to sections on the same page.
-
-## Credits
-
-Built by Vinay with AI-assisted starter code and design,
-followed by hands-on deployment and testing.
+- Monthly budget tracking.
+- Category charts.
+- Edit and delete expense controls.
+- CSV export.
+- Demo-data mode.
