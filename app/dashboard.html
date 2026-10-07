@@ -1,0 +1,308 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Vinay Expense Dashboard</title>
+<style>
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background: #f3f5fb;
+  color: #17213b;
+}
+.layout { display: flex; min-height: 100vh; }
+.sidebar {
+  width: 220px;
+  flex-shrink: 0;
+  background: #17213b;
+  color: white;
+  padding: 30px 22px;
+}
+.brand {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 40px;
+}
+.brand span { color: #75e2bd; }
+.sidebar a {
+  display: block;
+  color: #ccd4e8;
+  text-decoration: none;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+}
+.sidebar a:hover, .sidebar a.active {
+  background: #2c3b5d;
+  color: white;
+}
+.sidebar p {
+  margin-top: 45px;
+  color: #a5b3cc;
+  font-size: 13px;
+}
+main { flex: 1; padding: 32px; min-width: 0; }
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+h1 { margin: 0 0 8px; font-size: 28px; }
+.muted { color: #728099; margin: 0; }
+.badge {
+  background: #dff5ec;
+  color: #146c50;
+  padding: 10px 16px;
+  border-radius: 25px;
+  white-space: nowrap;
+}
+.hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: #273b80;
+  color: white;
+  padding: 28px;
+  border-radius: 20px;
+  margin-bottom: 24px;
+}
+.hero h2 { font-size: 26px; margin: 0 0 12px; }
+.hero p {
+  color: #dce4ff;
+  line-height: 1.6;
+  max-width: 420px;
+}
+.hero svg { width: 260px; max-width: 40%; height: auto; }
+.cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.card, .panel {
+  background: white;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 5px 20px #17213b08;
+}
+.card p { color: #728099; margin: 0 0 12px; }
+.card h2 { margin: 0; font-size: 27px; }
+.green { color: #15966c; }
+.panel { margin-bottom: 24px; scroll-margin-top: 20px; }
+.panel h2 { margin-top: 0; font-size: 20px; }
+form {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr auto;
+  gap: 14px;
+  align-items: end;
+}
+label { display: block; font-size: 13px; color: #596780; }
+input {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px;
+  border: 1px solid #dce2ef;
+  border-radius: 8px;
+  font: inherit;
+  background: #fafbfe;
+}
+button {
+  border: 0;
+  border-radius: 8px;
+  padding: 13px 20px;
+  background: #3455d1;
+  color: white;
+  font: inherit;
+  cursor: pointer;
+}
+button:hover { background: #233fa9; }
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th {
+  text-align: left;
+  color: #728099;
+  font-size: 13px;
+  background: #f7f9fd;
+}
+th, td { padding: 16px; border-bottom: 1px solid #edf0f6; }
+.category {
+  display: inline-block;
+  padding: 6px 12px;
+  background: #edf1ff;
+  color: #3455b4;
+  border-radius: 20px;
+}
+.empty { text-align: center; color: #728099; padding: 30px; }
+footer {
+  color: #728099;
+  text-align: center;
+  font-size: 12px;
+}
+@media(max-width: 900px) {
+  .sidebar { width: 170px; padding: 24px 12px; }
+  form { grid-template-columns: 1fr 1fr; }
+  .cards { grid-template-columns: 1fr; }
+}
+@media(max-width: 600px) {
+  .layout { display: block; }
+  .sidebar { width: 100%; padding: 16px; }
+  .brand { margin-bottom: 12px; }
+  .sidebar a {
+    display: inline-block;
+    margin: 0;
+    padding: 10px;
+  }
+  .sidebar p { display: none; }
+  main { padding: 18px; }
+  .topbar { flex-wrap: wrap; }
+  .hero { padding: 20px; }
+  .hero h2 { font-size: 21px; }
+  form { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">Vinay<span>Finance</span></div>
+
+    <nav aria-label="Dashboard navigation">
+      <a class="active" href="#dashboard">Dashboard</a>
+      <a href="#add-expense">Add expense</a>
+      <a href="#history">Expense history</a>
+    </nav>
+
+    <p>Personal expense tracker<br><br>Docker portfolio project</p>
+  </aside>
+
+  <main id="dashboard">
+    <header class="topbar">
+      <div>
+        <h1>Expense dashboard</h1>
+        <p class="muted">Welcome, Vinay. Keep track of your spending.</p>
+      </div>
+      <span class="badge">Personal finance</span>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h2>Small expenses. Clear insights.</h2>
+        <p>Record your daily spending and see your monthly total
+           in one simple dashboard.</p>
+      </div>
+
+      <svg viewBox="0 0 300 200" role="img"
+           aria-labelledby="finance-title">
+        <title id="finance-title">
+          Finance illustration with a wallet, coins and an upward chart
+        </title>
+        <circle cx="165" cy="100" r="90" fill="#3b5197"/>
+        <rect x="50" y="70" width="180" height="105"
+              rx="18" fill="#75e2bd"/>
+        <path d="M65 70V55Q65 45 80 45H210V70" fill="#b7f3dd"/>
+        <rect x="175" y="103" width="75" height="43"
+              rx="10" fill="#effff9"/>
+        <circle cx="195" cy="124" r="6" fill="#273b80"/>
+        <circle cx="70" cy="155" r="24" fill="#ffd478"/>
+        <circle cx="70" cy="155" r="16" fill="none"
+                stroke="#dc9b2b" stroke-width="3"/>
+        <text x="70" y="163" text-anchor="middle"
+              font-size="23" fill="#946418">₹</text>
+        <path d="M110 53L145 32L173 43L218 15"
+              stroke="#ffd478" stroke-width="7"
+              fill="none" stroke-linecap="round"/>
+        <path d="M200 15H218V33" stroke="#ffd478"
+              stroke-width="7" fill="none"/>
+      </svg>
+    </section>
+
+    <section class="cards" aria-label="Expense summary">
+      <div class="card">
+        <p>This month's spending</p>
+        <h2>₹ {{ "%.2f"|format(total) }}</h2>
+      </div>
+
+      <div class="card">
+        <p>All-time expenses</p>
+        <h2>{{ expenses|length }}</h2>
+      </div>
+
+      <div class="card">
+        <p>All-time spending</p>
+        <h2 class="green">
+          ₹ {{ "%.2f"|format(expenses|sum(attribute=2)) }}
+        </h2>
+      </div>
+    </section>
+
+    <section class="panel" id="add-expense">
+      <h2>Add a new expense</h2>
+
+      <form action="/add" method="post">
+        <label>Category
+          <input name="category"
+                 placeholder="Food, Travel, Shopping"
+                 maxlength="100" required>
+        </label>
+
+        <label>Amount (INR)
+          <input name="amount" type="number" min="0.01"
+                 max="9999999999.99" step="0.01"
+                 placeholder="150.00" required>
+        </label>
+
+        <label>Date
+          <input name="expense_date" type="date"
+                 value="{{ today }}" required>
+        </label>
+
+        <button type="submit">Add expense</button>
+      </form>
+    </section>
+
+    <section class="panel" id="history">
+      <h2>Expense history</h2>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Category</th>
+              <th>Amount (INR)</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for expense in expenses %}
+            <tr>
+              <td>{{ expense[0] }}</td>
+              <td>
+                <span class="category">{{ expense[1] }}</span>
+              </td>
+              <td>₹ {{ "%.2f"|format(expense[2]) }}</td>
+            </tr>
+            {% else %}
+            <tr>
+              <td colspan="3" class="empty">
+                No expenses yet. Add your first expense above.
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <footer>
+      Built by Vinay · Flask · PostgreSQL · Nginx · Docker
+    </footer>
+  </main>
+</div>
+</body>
+</html>

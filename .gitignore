@@ -1,0 +1,8 @@
+.env
+nginx/certs/
+__pycache__/
+*.pyc
+*.sql
+*.bak
+*.before-dashboard
+*.before-fix
